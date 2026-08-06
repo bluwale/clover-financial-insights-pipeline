@@ -1,0 +1,15 @@
+# HTTP (Clover client, Resend delivery)
+httpx
+# Config
+python-dotenv
+# CLI / pretty output
+rich
+# LLM insight layer (reports/)
+anthropic
+pydantic
+# Scheduling
+apscheduler
+# IANA timezone data for zoneinfo (required on Windows)
+tzdata
+# Tests
+pytest

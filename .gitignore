@@ -1,0 +1,18 @@
+# Secrets
+.env
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Database (generated)
+db/*.db
+db/*.db-wal
+db/*.db-shm
+
+# Generated report output
+out/
+report_exports/
