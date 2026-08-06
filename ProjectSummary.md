@@ -1,4 +1,5 @@
-# Anara Financial Insights & Retail Intelligence Platform
+# Soch Financial Insights & Retail Intelligence Platform
+
 ### Enhanced Project Overview — v2.0
 > *Revised with architectural gap analysis & Anara-specific analytics*
 
