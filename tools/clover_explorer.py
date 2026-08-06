@@ -131,8 +131,8 @@ MENU = """
 async def run() -> None:
     validate(require_clover=True)
     last_result = None
-    # dev tool: always explores the first configured location (Meadowvale). Swap LOCATIONS[0]
-    # for LOCATIONS[1] here to point it at Harborview instead.
+    # dev tool: always explores the first configured location (Location A). Swap LOCATIONS[0]
+    # for LOCATIONS[1] here to point it at Location B instead.
     loc = LOCATIONS[0]
     console.print(Panel(f"[bold]Connecting to Clover ({loc['name']})...[/bold]"))
 

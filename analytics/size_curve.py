@@ -2,7 +2,7 @@
 Size-curve analytics — Layer 2, deterministic (ProjectSummary §4.3).
 
 Per category × size: sales volume, sell-through, dead-stock flags, and a demand-weighted
-reorder recommendation. A Tier-1 apparel analytic — it shows Anara which sizes sell out
+reorder recommendation. A Tier-1 apparel analytic — it shows Store which sizes sell out
 first and which accumulate, so reorders match real size demand.
 
 Key design decision — the sell-through denominator:

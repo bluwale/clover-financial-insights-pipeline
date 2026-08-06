@@ -81,12 +81,12 @@ def test_import_writes_scoped_rows(tmp_path):
     conn = _db(tmp_path)
     csv_path = tmp_path / "costs.csv"
     csv_path.write_text(_GOOD_CSV)
-    n = opex_import.import_costs("Meadowvale", "2026-07", csv_path, conn=conn)
+    n = opex_import.import_costs("Location A", "2026-07", csv_path, conn=conn)
     assert n == 4
 
     rows = conn.execute(
         "SELECT category, amount_cents, is_fixed FROM operating_costs "
-        "WHERE business_id='anara-apparel-001' AND period_month='2026-07' ORDER BY category"
+        "WHERE business_id='store-001' AND period_month='2026-07' ORDER BY category"
     ).fetchall()
     assert len(rows) == 4
     assert dict(rows[0]) == {"category": "marketing", "amount_cents": 60000, "is_fixed": 0}
@@ -96,11 +96,11 @@ def test_reimport_same_month_upserts_not_duplicates(tmp_path):
     conn = _db(tmp_path)
     csv_path = tmp_path / "costs.csv"
     csv_path.write_text(_GOOD_CSV)
-    opex_import.import_costs("Meadowvale", "2026-07", csv_path, conn=conn)
+    opex_import.import_costs("Location A", "2026-07", csv_path, conn=conn)
 
     # Re-import with a corrected rent figure — must update in place, not duplicate.
     csv_path.write_text(_GOOD_CSV.replace("rent,3500,yes,", "rent,3600,yes,"))
-    opex_import.import_costs("Meadowvale", "2026-07", csv_path, conn=conn)
+    opex_import.import_costs("Location A", "2026-07", csv_path, conn=conn)
 
     rows = conn.execute(
         "SELECT amount_cents FROM operating_costs WHERE category='rent'"
@@ -113,16 +113,16 @@ def test_two_locations_do_not_collide(tmp_path):
     conn = _db(tmp_path)
     csv_path = tmp_path / "costs.csv"
     csv_path.write_text(_GOOD_CSV)
-    opex_import.import_costs("Meadowvale", "2026-07", csv_path, conn=conn)
-    opex_import.import_costs("Harborview", "2026-07", csv_path, conn=conn)
+    opex_import.import_costs("Location A", "2026-07", csv_path, conn=conn)
+    opex_import.import_costs("Location B", "2026-07", csv_path, conn=conn)
 
     total = conn.execute("SELECT COUNT(*) FROM operating_costs").fetchone()[0]
     assert total == 8  # 4 rows x 2 locations, not merged/overwritten
 
-    meadowvale_biz = conn.execute(
-        "SELECT DISTINCT business_id FROM operating_costs WHERE business_id LIKE 'anara-apparel%'"
+    location_a_biz = conn.execute(
+        "SELECT DISTINCT business_id FROM operating_costs WHERE business_id = 'store-001'"
     ).fetchall()
-    assert len(meadowvale_biz) == 1
+    assert len(location_a_biz) == 1
 
 
 def test_unknown_location_raises(tmp_path):

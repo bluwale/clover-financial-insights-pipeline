@@ -276,7 +276,7 @@ async def run_sync(
     business_id: str = BUSINESS_ID,
     id_prefix: str = "",
 ) -> dict:
-    """Sync one entity for one location (default: Meadowvale). Creates its own Clover client +
+    """Sync one entity for one location (default: Location A). Creates its own Clover client +
     DB connection if none are injected (injection is used by run_full_sync and by tests).
     ``business_id``/``id_prefix`` come from settings.LOCATIONS — see run_full_sync. Returns a
     run summary dict."""
@@ -343,8 +343,8 @@ async def run_sync(
 async def run_full_sync(*, full_backfill: bool = False) -> dict:
     """Sync every entity, for every configured Clover location, in dependency order.
 
-    A location missing valid credentials is skipped (logged, not fatal) — e.g. Meadowvale keeps
-    syncing on its own before Harborview's token is dropped into .env, and vice versa.
+    A location missing valid credentials is skipped (logged, not fatal) — e.g. Location A keeps
+    syncing on its own before Location B's token is dropped into .env, and vice versa.
     """
     ready = [loc for loc in LOCATIONS if location_ready(loc)]
     if not ready:

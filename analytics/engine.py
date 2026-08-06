@@ -83,7 +83,7 @@ def build_snapshot(
         # Cost-price (COGS) coverage — a live data-maturity signal, not a hardcoded
         # per-location label. Rises on its own as more products get a real cost_price
         # entered in Clover; margin reporting should be scoped/caveated off this number
-        # rather than a fixed "Meadowvale = low confidence" rule (plan-e0bad4f9401945e1).
+        # rather than a fixed "Location A = low confidence" rule (plan-e0bad4f9401945e1).
         cost_conf = _cost_data_confidence(conn, business_id)
         # Gross margin (§4.7), scoped to cost-tracked SKUs only — over the same current
         # window as revenue. cost_data_confidence above is the caveat this should be read
@@ -145,7 +145,7 @@ def build_snapshot(
             "margin": _dollarize_deep(mg),
             # Cost-data (COGS) coverage: what fraction of the catalog has a real cost_price
             # today — the confidence signal the margin block above should be read against,
-            # per-location, live (not a hardcoded "Meadowvale = low confidence" label).
+            # per-location, live (not a hardcoded "Location A = low confidence" label).
             "cost_data_confidence": cost_conf,
             # Filled by the remaining Layer-2 module (calendar, §4.5). Kept present with
             # an empty default so reports/ can rely on a stable shape (§5.4).

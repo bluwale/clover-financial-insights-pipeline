@@ -16,7 +16,7 @@ Design decisions (see also the §4.10 notes):
   * MATURITY GATE: a day is only scanned when >= min_history_days of order history
     precede it. With less, the "baseline" is a handful of days and every quiet Monday
     would flag. Skipped days surface via insufficient_history, not fake anomalies.
-  * Thresholds are compute() params with defaults (tune for Anara), mirroring inventory:
+  * Thresholds are compute() params with defaults (tune for Store), mirroring inventory:
       - revenue_drop:  day net < (1 - drop_threshold_pct/100) x baseline avg
       - refund_spike:  day refunds >= refund_floor_cents AND > spike multiple x baseline
         (the floor keeps a first-ever small refund against a $0 baseline from flagging)

@@ -175,30 +175,30 @@ def test_build_snapshot_is_isolated_per_location():
     and get its own cost_data_confidence, proving the business_id threading actually works
     end to end (not just per-module in isolation)."""
     conn = _db()
-    # Meadowvale: one $200 order, cost data on neither of its 2 products (0% coverage).
-    _ins(conn, "orders", id="b1", business_id="anara-apparel-001", total=20000,
+    # Location A: one $200 order, cost data on neither of its 2 products (0% coverage).
+    _ins(conn, "orders", id="b1", business_id="store-001", total=20000,
          is_voided=0, is_deleted=0, created_at_local="2025-01-28T12:00:00-05:00")
-    _ins(conn, "products", id="Pb1", business_id="anara-apparel-001", cost_price=0)
-    _ins(conn, "products", id="Pb2", business_id="anara-apparel-001", cost_price=0)
-    # Harborview: one $50 order, cost data on both of its 2 products (100% coverage).
-    _ins(conn, "orders", id="v1", business_id="anara-harborview", total=5000,
+    _ins(conn, "products", id="Pb1", business_id="store-001", cost_price=0)
+    _ins(conn, "products", id="Pb2", business_id="store-001", cost_price=0)
+    # Location B: one $50 order, cost data on both of its 2 products (100% coverage).
+    _ins(conn, "orders", id="v1", business_id="store-002", total=5000,
          is_voided=0, is_deleted=0, created_at_local="2025-01-28T12:00:00-05:00")
-    _ins(conn, "products", id="Pv1", business_id="anara-harborview", cost_price=500)
-    _ins(conn, "products", id="Pv2", business_id="anara-harborview", cost_price=800)
+    _ins(conn, "products", id="Pv1", business_id="store-002", cost_price=500)
+    _ins(conn, "products", id="Pv2", business_id="store-002", cost_price=800)
     conn.commit()
 
-    meadowvale = engine.build_snapshot("weekly", conn=conn, as_of=AS_OF, business_id="anara-apparel-001")
-    harborview = engine.build_snapshot("weekly", conn=conn, as_of=AS_OF, business_id="anara-harborview")
+    location_a = engine.build_snapshot("weekly", conn=conn, as_of=AS_OF, business_id="store-001")
+    location_b = engine.build_snapshot("weekly", conn=conn, as_of=AS_OF, business_id="store-002")
 
-    assert meadowvale["revenue"]["gross"] == 200.0
-    assert harborview["revenue"]["gross"] == 50.0
-    assert meadowvale["cost_data_confidence"] == {"tracked": 0, "total": 2, "tracked_pct": 0.0}
-    assert harborview["cost_data_confidence"] == {"tracked": 2, "total": 2, "tracked_pct": 100.0}
+    assert location_a["revenue"]["gross"] == 200.0
+    assert location_b["revenue"]["gross"] == 50.0
+    assert location_a["cost_data_confidence"] == {"tracked": 0, "total": 2, "tracked_pct": 0.0}
+    assert location_b["cost_data_confidence"] == {"tracked": 2, "total": 2, "tracked_pct": 100.0}
 
     rows = conn.execute(
         "SELECT business_id FROM analytics_snapshots ORDER BY business_id"
     ).fetchall()
-    assert [r["business_id"] for r in rows] == ["anara-apparel-001", "anara-harborview"]
+    assert [r["business_id"] for r in rows] == ["store-001", "store-002"]
 
 
 def test_top_category_from_size_curve():

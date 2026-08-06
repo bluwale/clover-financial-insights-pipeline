@@ -1,14 +1,14 @@
-# Anara Financial Insights & Retail Intelligence Platform
+# Clover Financial Insights & Retail Intelligence Platform
 ### Enhanced Project Overview — v2.0
-> *Revised with architectural gap analysis & Anara-specific analytics*
+> *Revised with architectural gap analysis & Store-specific analytics*
 
-**Primary Business:** Anara Apparel — Indian Women's Retail | **Scope:** Single-Tenant MVP
+**Primary Business:** Your Store — Indian Women's Retail | **Scope:** Single-Tenant MVP
 
 ---
 
 ## 1. Project Mission & Vision
 
-Transform raw POS data from Clover into actionable retail intelligence for small businesses, beginning with **Anara Apparel** — an Indian women's clothing store specialising in casual, party, festive, and traditional wear. The platform is designed to behave less like a spreadsheet dashboard and more like an embedded business analyst.
+Transform raw POS data from Clover into actionable retail intelligence for small businesses, beginning with **Your Store** — an Indian women's clothing store specialising in casual, party, festive, and traditional wear. The platform is designed to behave less like a spreadsheet dashboard and more like an embedded business analyst.
 
 The long-term vision is a reusable, multi-tenant analytics architecture that adapts to other small businesses beyond apparel retail. The current build is **single-tenant**, but the schema and config layer should anticipate future abstraction.
 
@@ -190,7 +190,7 @@ The analytics engine always produces a typed JSON payload before LLM invocation:
 
 ---
 
-## 6. Anara Apparel — Priority Analytics Roadmap
+## 6. Your Store — Priority Analytics Roadmap
 
 ### 🟢 Tier 1 — Build First (Highest Operational Value)
 
@@ -315,7 +315,7 @@ Forecasting | Margin analysis | Trend analysis | Inventory aging | Customer anal
 
 ## 12. Long-Term Vision
 
-The platform is architected to evolve into a reusable small-business retail intelligence engine. The single-tenant MVP for Anara Apparel serves as the validation environment.
+The platform is architected to evolve into a reusable small-business retail intelligence engine. The single-tenant MVP for Your Store serves as the validation environment.
 
 Future expansion includes:
 - Multi-tenant SaaS architecture

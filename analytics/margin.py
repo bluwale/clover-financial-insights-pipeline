@@ -2,7 +2,7 @@
 Margin analytics — Layer 2, deterministic (ProjectSummary §4.7).
 
 Gross margin (revenue - COGS) per period, scoped to SKUs with real cost data only
-(products.cost_price > 0) — decided after finding only ~22% of Meadowvale's catalog has a
+(products.cost_price > 0) — decided after finding only ~22% of Location A's catalog has a
 real (>0) cost_price synced from Clover (the rest read as $0, a source-data-entry gap, not
 a real limitation). Untracked products' units are excluded entirely from both revenue-for-
 margin and COGS, never counted at a fabricated $0 cost — that's exactly the trap this scoping

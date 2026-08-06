@@ -35,12 +35,12 @@ def test_send_flag_delivers(monkeypatch):
     sent = _wire(monkeypatch, {"html": "x", "headline": None, "llm_available": False, "flagged": ["$9"]})
     run.run_report("daily", send=True)
     assert sent["dry_run"] is False                # actually sends
-    assert sent["subject"] == "Anara daily summary — Meadowvale"  # no headline -> base subject + location
+    assert sent["subject"] == "Store daily summary — Location A"  # no headline -> base subject + location
 
 
 _LOCATIONS = [
-    {"business_id": "anara-apparel-001", "name": "Meadowvale", "merchant_id": "m1", "api_token": "t1", "id_prefix": ""},
-    {"business_id": "anara-harborview", "name": "Harborview", "merchant_id": "m2", "api_token": "t2", "id_prefix": "v:"},
+    {"business_id": "store-001", "name": "Location A", "merchant_id": "m1", "api_token": "t1", "id_prefix": ""},
+    {"business_id": "store-002", "name": "Location B", "merchant_id": "m2", "api_token": "t2", "id_prefix": "b:"},
 ]
 
 
@@ -68,10 +68,10 @@ def test_run_all_locations_sends_one_report_per_location_plus_comparison(monkeyp
     sent: list[str] = []
     _wire_multi(monkeypatch, sent)
     results = run.run_all_locations("weekly")
-    assert set(results) == {"Meadowvale", "Harborview"}
-    assert "Anara weekly report — Meadowvale" in sent
-    assert "Anara weekly report — Harborview" in sent
-    assert "Anara weekly report — location comparison" in sent
+    assert set(results) == {"Location A", "Location B"}
+    assert "Store weekly report — Location A" in sent
+    assert "Store weekly report — Location B" in sent
+    assert "Store weekly report — location comparison" in sent
     assert len(sent) == 3
 
 
@@ -79,7 +79,7 @@ def test_run_all_locations_skips_unready_and_omits_comparison(monkeypatch):
     """Only one location ready -> that report still sends, but no comparison email (needs 2+)."""
     sent: list[str] = []
     _wire_multi(monkeypatch, sent)
-    monkeypatch.setattr(run, "location_ready", lambda loc: loc["name"] == "Meadowvale")
+    monkeypatch.setattr(run, "location_ready", lambda loc: loc["name"] == "Location A")
     results = run.run_all_locations("weekly")
-    assert set(results) == {"Meadowvale"}
-    assert sent == ["Anara weekly report — Meadowvale"]
+    assert set(results) == {"Location A"}
+    assert sent == ["Store weekly report — Location A"]

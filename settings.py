@@ -1,5 +1,5 @@
 """
-Central application configuration for the Anara Financial Insights pipeline.
+Central application configuration for the Clover Financial Insights pipeline.
 
 Loads environment from .env and exposes typed, cleaned settings used across every
 layer (etl, analytics, reports, delivery, db). Import this module instead of calling
@@ -35,38 +35,38 @@ def _path(value: str | None, default: str) -> Path:
 
 # ── App ─────────────────────────────────────────────────────────────────────────
 APP_ENV = _clean(os.getenv("APP_ENV"), "development")
-BUSINESS_ID = _clean(os.getenv("BUSINESS_ID"), "anara-apparel-001")
+BUSINESS_ID = _clean(os.getenv("BUSINESS_ID"), "store-001")
 STORE_TIMEZONE = _clean(os.getenv("STORE_TIMEZONE"), "America/Toronto")
 LOG_LEVEL = _clean(os.getenv("LOG_LEVEL"), "INFO").upper()
 
 # ── Database ──────────────────────────────────────────────────────────────────
-DB_PATH = _path(os.getenv("DB_PATH"), "./db/anara.db")
+DB_PATH = _path(os.getenv("DB_PATH"), "./db/store.db")
 
 # ── Clover ────────────────────────────────────────────────────────────────────
 CLOVER_BASE_URL = _clean(os.getenv("CLOVER_BASE_URL"), "https://api.clover.com").rstrip("/")
 
 # Two physical locations, two separate Clover merchant accounts, one shared SQLite store.
 # business_id already scopes every analytics query (analytics/*.py), so each location just
-# needs its own Clover credentials + business_id here. Meadowvale keeps its original business_id
-# (BUSINESS_ID, 'anara-apparel-001') and unprefixed ids — it already has a year of history
+# needs its own Clover credentials + business_id here. Location A keeps its original business_id
+# (BUSINESS_ID, 'store-001') and unprefixed ids — it already has a year of history
 # synced under that shape, and changing it would fracture that history across two id schemes.
-# Harborview is new, so it gets an id_prefix: Clover doesn't guarantee resource ids are unique
+# Location B is new, so it gets an id_prefix: Clover doesn't guarantee resource ids are unique
 # *across* merchant accounts (only within one), so without a prefix a coincidental id collision
 # would let an upsert from one location silently overwrite the other's row.
 LOCATIONS = [
     {
         "business_id": BUSINESS_ID,
-        "name": "Meadowvale",
-        "merchant_id": _clean(os.getenv("CLOVER_MERCHANT_ID_MEADOWVALE")),
-        "api_token": _clean(os.getenv("CLOVER_API_TOKEN_MEADOWVALE")),
+        "name": "Location A",
+        "merchant_id": _clean(os.getenv("CLOVER_MERCHANT_ID_LOCATION_A")),
+        "api_token": _clean(os.getenv("CLOVER_API_TOKEN_LOCATION_A")),
         "id_prefix": "",
     },
     {
-        "business_id": "anara-harborview",
-        "name": "Harborview",
-        "merchant_id": _clean(os.getenv("CLOVER_MERCHANT_ID_HARBORVIEW")),
-        "api_token": _clean(os.getenv("CLOVER_API_TOKEN_HARBORVIEW")),
-        "id_prefix": "anara-harborview:",
+        "business_id": "store-002",
+        "name": "Location B",
+        "merchant_id": _clean(os.getenv("CLOVER_MERCHANT_ID_LOCATION_B")),
+        "api_token": _clean(os.getenv("CLOVER_API_TOKEN_LOCATION_B")),
+        "id_prefix": "store-002:",
     },
 ]
 
@@ -110,8 +110,8 @@ def cost_usd(model: str, input_tokens: int, output_tokens: int) -> float:
 # ── Email (Resend) ────────────────────────────────────────────────────────────
 EMAIL_PROVIDER = _clean(os.getenv("EMAIL_PROVIDER"), "resend")
 RESEND_API_KEY = _clean(os.getenv("RESEND_API_KEY"))
-EMAIL_FROM = _clean(os.getenv("EMAIL_FROM"), "insights@anaraapparel.com")
-EMAIL_FROM_NAME = _clean(os.getenv("EMAIL_FROM_NAME"), "Anara Insights")
+EMAIL_FROM = _clean(os.getenv("EMAIL_FROM"), "insights@yourstore.example")
+EMAIL_FROM_NAME = _clean(os.getenv("EMAIL_FROM_NAME"), "Store Insights")
 EMAIL_TO = [a.strip() for a in _clean(os.getenv("EMAIL_TO")).split(",") if a.strip()]
 
 

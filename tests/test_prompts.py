@@ -14,7 +14,7 @@ def test_weekly_loads_and_versions():
 def test_system_base_always_prepended():
     for report_type in ("daily", "weekly", "monthly"):
         system, _ = load_template(report_type, "1.0")
-        assert "Anara Apparel" in system
+        assert "Your Store" in system
         assert "Never calculate" in system  # base rules are present
         assert "cost_data_confidence" in system  # margin/history maturity guidance is present
         assert "gross margin" in system

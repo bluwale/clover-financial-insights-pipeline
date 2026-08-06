@@ -3,7 +3,7 @@ Email delivery via Resend (https://resend.com).
 
 Uses httpx (already a dependency) rather than the Resend SDK to keep deps light. Resend is a
 non-Claude HTTP API, so a direct POST is the right tool here. Sends from the verified
-anaraapparel.com domain (settings.EMAIL_FROM).
+yourstore.example domain (settings.EMAIL_FROM).
 """
 from __future__ import annotations
 

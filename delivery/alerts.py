@@ -62,7 +62,7 @@ def _render(payload: dict) -> str:
 def send_alert(kind: str, payload: dict, *, dry_run: bool = False) -> dict:
     """Compose and send an alert (e.g. ``low_stock``, ``refund_spike``). Returns send_email's result."""
     title = _TITLES.get(kind, kind.replace("_", " ").title())
-    subject = f"[Anara alert] {title}"
+    subject = f"[Store alert] {title}"
     html = f"<h2 style='font-size:16px'>{escape(title)}</h2>" + _render(payload)
     log.info("alert %r (dry_run=%s): %s", kind, dry_run, subject)
     return send_email(subject, html, dry_run=dry_run)

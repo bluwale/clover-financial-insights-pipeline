@@ -8,7 +8,7 @@ from settings import LOG_LEVEL
 _CONFIGURED = False
 
 
-def get_logger(name: str = "anara") -> logging.Logger:
+def get_logger(name: str = "store") -> logging.Logger:
     global _CONFIGURED
     if not _CONFIGURED:
         logging.basicConfig(

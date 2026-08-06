@@ -21,7 +21,7 @@ automatically from Clover order data (analytics.revenue's discounts_cents), and 
 re-entering it would create two conflicting numbers for the same thing.
 
 Usage:
-    python -m tools.opex_import --location Meadowvale --month 2026-07 costs.csv
+    python -m tools.opex_import --location Location A --month 2026-07 costs.csv
 """
 from __future__ import annotations
 

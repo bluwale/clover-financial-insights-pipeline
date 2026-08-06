@@ -18,7 +18,7 @@ def _db():
 
 
 def _ins(conn, table, **cols):
-    # business_id omitted → relies on the schema's 'anara-apparel-001' default (= settings.BUSINESS_ID).
+    # business_id omitted → relies on the schema's 'store-001' default (= settings.BUSINESS_ID).
     qs = ", ".join("?" for _ in cols)
     conn.execute(f"INSERT INTO {table} ({', '.join(cols)}) VALUES ({qs})", tuple(cols.values()))
 

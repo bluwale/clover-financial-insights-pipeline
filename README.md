@@ -1,4 +1,4 @@
-# Anara Financial Insights Pipeline
+# Clover Financial Insights Pipeline
 
 A three-layer pipeline that turns raw point-of-sale data into plain-language financial reports for a small, multi-location retail business — automatically, on a schedule, without anyone opening a spreadsheet.
 
@@ -113,7 +113,7 @@ cp .env.example .env
 # and what happens if a section is left as a placeholder (nothing crashes; that
 # section's functionality just gracefully falls back — see settings.validate())
 
-python -m db.init_db        # creates db/anara.db from db/schema.sql
+python -m db.init_db        # creates db/store.db from db/schema.sql
 python -m pytest -q         # 185 tests, fully self-contained — no credentials needed
 
 # The two steps above are enough to build and verify the code. Actually generating a

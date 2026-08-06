@@ -12,7 +12,7 @@ before an actual send.
 Multi-location (plan-e0bad4f9401945e1): ``--location`` picks one location's report, or the
 default ``all`` sends a separate report per configured location plus a combined comparison.
 
-    python -m reports.run --type weekly [--location Meadowvale] [--send]
+    python -m reports.run --type weekly [--location Location A] [--send]
 """
 from __future__ import annotations
 
@@ -28,9 +28,9 @@ from utils.logging import get_logger
 log = get_logger("reports.run")
 
 _SUBJECT = {
-    "daily": "Anara daily summary",
-    "weekly": "Anara weekly report",
-    "monthly": "Anara monthly digest",
+    "daily": "Store daily summary",
+    "weekly": "Store weekly report",
+    "monthly": "Store monthly digest",
 }
 
 
@@ -51,7 +51,7 @@ def run_report(
         snapshot = build_snapshot(report_type, business_id=business_id)
     result = generate_report(report_type, snapshot)
 
-    subject = f"{_SUBJECT.get(report_type, f'Anara {report_type} report')} — {loc['name']}"
+    subject = f"{_SUBJECT.get(report_type, f'Store {report_type} report')} — {loc['name']}"
     if result["headline"]:
         subject = f"{subject}: {result['headline']}"
     send_email(subject, result["html"], dry_run=not send)
@@ -86,7 +86,7 @@ def run_all_locations(report_type: str, *, send: bool = False) -> dict:
 
     if len(snapshots) >= 2:
         comparison_html = render_comparison(snapshots)
-        subject = f"Anara {report_type} report — location comparison"
+        subject = f"Store {report_type} report — location comparison"
         send_email(subject, comparison_html, dry_run=not send)
         log.info("%s comparison report done for %s (sent=%s)", report_type, list(snapshots), send)
 
@@ -94,7 +94,7 @@ def run_all_locations(report_type: str, *, send: bool = False) -> dict:
 
 
 def main() -> None:
-    p = argparse.ArgumentParser(description="Generate and optionally email a Anara insight report.")
+    p = argparse.ArgumentParser(description="Generate and optionally email a retail insight report.")
     p.add_argument("--type", default="weekly", choices=["daily", "weekly", "monthly"],
                    help="report cadence (default: weekly)")
     p.add_argument("--location", choices=(*(l["name"] for l in LOCATIONS), "all"), default="all",

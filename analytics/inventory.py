@@ -18,7 +18,7 @@ Data-availability notes (honest scope — see the architecture conversation):
     series of snapshots to form an average inventory, and the ETL has little history.
     Revisit once backfill builds depth. (TODO)
 
-All thresholds are parameters with retail-sensible defaults; tune for Anara.
+All thresholds are parameters with retail-sensible defaults; tune for Store.
 """
 from __future__ import annotations
 

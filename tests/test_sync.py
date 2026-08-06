@@ -116,31 +116,31 @@ def test_sync_is_idempotent(tmp_path):
 
 
 def test_second_location_is_id_prefixed_and_does_not_collide(tmp_path):
-    """Two locations, same Clover-shaped ids ('P1'/'O1'/...) — Meadowvale (no prefix, matches
-    already-synced history) and Harborview (id_prefix) must land as distinct rows, not an
+    """Two locations, same Clover-shaped ids ('P1'/'O1'/...) — Location A (no prefix, matches
+    already-synced history) and Location B (id_prefix) must land as distinct rows, not an
     upsert collision, and each row must carry its own location's business_id."""
     conn = _setup(tmp_path)
     try:
-        _run_all(FakeClient(_dataset()), conn, business_id="anara-apparel-001", id_prefix="")
-        _run_all(FakeClient(_dataset()), conn, business_id="anara-harborview", id_prefix="anara-harborview:")
+        _run_all(FakeClient(_dataset()), conn, business_id="store-001", id_prefix="")
+        _run_all(FakeClient(_dataset()), conn, business_id="store-002", id_prefix="store-002:")
 
         assert conn.execute("SELECT COUNT(*) FROM orders").fetchone()[0] == 2
         assert conn.execute(
             "SELECT business_id FROM orders WHERE id='O1'"
-        ).fetchone()[0] == "anara-apparel-001"
+        ).fetchone()[0] == "store-001"
         assert conn.execute(
-            "SELECT business_id FROM orders WHERE id='anara-harborview:O1'"
-        ).fetchone()[0] == "anara-harborview"
+            "SELECT business_id FROM orders WHERE id='store-002:O1'"
+        ).fetchone()[0] == "store-002"
 
-        # FK references inside the Harborview row are prefixed consistently, not just the PK.
+        # FK references inside the Location B row are prefixed consistently, not just the PK.
         item = conn.execute(
-            "SELECT order_id, product_id FROM order_items WHERE id='anara-harborview:LI1'"
+            "SELECT order_id, product_id FROM order_items WHERE id='store-002:LI1'"
         ).fetchone()
-        assert tuple(item) == ("anara-harborview:O1", "anara-harborview:P1")
+        assert tuple(item) == ("store-002:O1", "store-002:P1")
         pay = conn.execute(
-            "SELECT order_id FROM payments WHERE id='anara-harborview:PAY1'"
+            "SELECT order_id FROM payments WHERE id='store-002:PAY1'"
         ).fetchone()
-        assert pay[0] == "anara-harborview:O1"
+        assert pay[0] == "store-002:O1"
     finally:
         conn.close()
 
