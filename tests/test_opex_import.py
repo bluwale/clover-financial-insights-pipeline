@@ -119,10 +119,10 @@ def test_two_locations_do_not_collide(tmp_path):
     total = conn.execute("SELECT COUNT(*) FROM operating_costs").fetchone()[0]
     assert total == 8  # 4 rows x 2 locations, not merged/overwritten
 
-    brampton_biz = conn.execute(
+    meadowvale_biz = conn.execute(
         "SELECT DISTINCT business_id FROM operating_costs WHERE business_id LIKE 'anara-apparel%'"
     ).fetchall()
-    assert len(brampton_biz) == 1
+    assert len(meadowvale_biz) == 1
 
 
 def test_unknown_location_raises(tmp_path):
