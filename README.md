@@ -1,4 +1,4 @@
-# Anara Financial Insights Pipeline
+# Clover Financial Insights Pipeline
 
 A three-layer pipeline that turns raw point-of-sale data into plain-language financial reports for a small, multi-location retail business — automatically, on a schedule, without anyone opening a spreadsheet.
 
