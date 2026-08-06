@@ -4,6 +4,8 @@ A three-layer pipeline that turns raw point-of-sale data into plain-language fin
 
 Built for a real two-location apparel retailer (business and location names anonymized here; see [Origin](#origin) below). It syncs from [Clover](https://www.clover.com/) POS, computes revenue, inventory, margin, and anomaly analytics deterministically in Python, then asks an LLM to explain — never calculate — what the numbers mean, and emails the result.
 
+Note: this is a cloned repository of the original, hence why there is no commit history. Original repo is running live and tailored to some specific store needs, we tried to create a more abstract version of the project here.
+
 ## Why this exists
 
 A small retailer doesn't need a BI platform or a data team. They need to open their email Monday morning and know, in one paragraph, whether last week was good or bad and what to do about it — without misreading a dashboard or trusting a number nobody can trace back to a source.
