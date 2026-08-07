@@ -1,8 +1,12 @@
 # Clover Financial Insights Pipeline
 
+Architected by: Saad Sanaullah & Ismail Ibrahim
+
 A three-layer pipeline that turns raw point-of-sale data into plain-language financial reports for a small, multi-location retail business — automatically, on a schedule, without anyone opening a spreadsheet.
 
 Built for a real two-location apparel retailer (business and location names anonymized here; see [Origin](#origin) below). It syncs from [Clover](https://www.clover.com/) POS, computes revenue, inventory, margin, and anomaly analytics deterministically in Python, then asks an LLM to explain — never calculate — what the numbers mean, and emails the result.
+
+**Note:** this is a cloned snapshot of the original, hence no commit history here. The original repo is running live in production, tailored to a specific store's needs; this version is a more abstract, anonymized extraction that protects the real retailer's sensitive information. Commit history from the original repo is available on request.
 
 ## Why this exists
 

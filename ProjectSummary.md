@@ -1,4 +1,5 @@
 # Clover Financial Insights & Retail Intelligence Platform
+
 ### Enhanced Project Overview — v2.0
 > *Revised with architectural gap analysis & Store-specific analytics*
 
